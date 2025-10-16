@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: iot-alarm-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"    # MQTT port
+      - "8080:8080"    # WebSockets port
+    volumes:
+      - ./config:/mosquitto/config:rw
+      - ./data:/mosquitto/data:rw
+      - ./log:/mosquitto/log:rw
+    environment:
+      - TZ=America/Bogota
+    networks:
+      - iot-alarm-network
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_pub -h localhost -t health/check -m 'ok' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  iot-alarm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

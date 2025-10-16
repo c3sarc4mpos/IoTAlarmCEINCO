@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "APRENDICES";
-const char* password = "Apr3nd1z2025**";
+const char* ssid = "senaAPRENDICES";
+const char* password = "senaApr3nd1z2025**";
 const char* mqttServer = "test.mosquitto.org";
 int port = 1883;
 
